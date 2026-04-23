@@ -109,28 +109,14 @@ const etaText = computed(() => {
 <template>
   <div class="rastreo-page">
 
-    <!-- ── Hero ────────────────────────────────── -->
-    <section class="hero">
-      <div class="hero-blob hero-blob-1"></div>
-      <div class="hero-blob hero-blob-2"></div>
-      <div class="hero-inner">
-        <div class="hero-icon-ring">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="1" y="3" width="15" height="13" rx="1"/>
-            <path d="M16 8h4l3 5v3h-7V8z"/>
-            <circle cx="5.5" cy="18.5" r="2.5"/>
-            <circle cx="18.5" cy="18.5" r="2.5"/>
-          </svg>
-        </div>
-        <h1 class="hero-title">Rastrea tu Pedido</h1>
-        <p class="hero-subtitle">Consulta el estado de tu compra en tiempo real.<br>Solo necesitas tu número de orden.</p>
+    <!-- ── Header Banner ──────────────────────────── -->
+    <div class="header-banner rastreo-banner">
+      <div class="banner-overlay"></div>
+      <div class="banner-content">
+        <h1>Rastrea tu Pedido</h1>
+        <p>Consulta el estado de tu compra en tiempo real</p>
       </div>
-      <div class="hero-wave">
-        <svg viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,72 L0,72 Z" fill="#f8f9fa"/>
-        </svg>
-      </div>
-    </section>
+    </div>
 
     <!-- ── Content ───────────────────────────────── -->
     <div class="content-wrap">
@@ -323,69 +309,48 @@ const etaText = computed(() => {
   font-family: var(--font-family);
 }
 
-/* ── Hero ──────────────────────────────────────────── */
-.hero {
-  background: linear-gradient(135deg, #237650 0%, #1b5e40 55%, #0d3d27 100%);
-  padding: 72px 24px 96px;
-  text-align: center;
+/* ── Header Banner ──────────────────────────── */
+.header-banner {
   position: relative;
-  overflow: hidden;
-  color: white;
-}
-
-.hero-blob {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.08;
-  pointer-events: none;
-}
-.hero-blob-1 {
-  width: 400px; height: 400px;
-  background: white;
-  top: -120px; left: -100px;
-}
-.hero-blob-2 {
-  width: 300px; height: 300px;
-  background: #F6B200;
-  bottom: -80px; right: -60px;
-}
-
-.hero-inner { position: relative; z-index: 1; }
-
-.hero-icon-ring {
-  display: inline-flex;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  border: 2px solid rgba(255,255,255,0.25);
-  margin-bottom: 20px;
-  color: white;
+  text-align: center;
 }
 
-.hero-title {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin: 0 0 12px;
-  letter-spacing: -0.5px;
+.rastreo-banner {
+  background-image: url('/images/delivery_header.png');
 }
 
-.hero-subtitle {
-  font-size: 1.05rem;
-  opacity: 0.85;
-  line-height: 1.6;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.hero-wave {
+.banner-overlay {
   position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 72px;
-  line-height: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to right, rgba(35, 118, 80, 0.9), rgba(0,0,0,0.6));
 }
-.hero-wave svg { display: block; width: 100%; height: 100%; }
+
+.banner-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  padding: 0 20px;
+}
+
+.banner-content h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0 0 16px 0;
+}
+
+.banner-content p {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
 
 /* ── Content wrap ──────────────────────────────────── */
 .content-wrap {

@@ -4,19 +4,19 @@
 
       <!-- Page Header -->
       <div class="flex items-center justify-between">
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white/90">Pedidos</h1>
+        <h1 class="text-xl font-semibold text-gray-800 dark:text-white/90">Clientes</h1>
         <span class="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2.5 text-sm font-medium text-gray-500 dark:text-gray-400">
-          {{ total }} pedidos
+          {{ total }} clientes
         </span>
       </div>
 
       <!-- Card -->
       <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
         <div class="px-6 py-5">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Haz clic en una fila para ver el detalle del pedido.</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Haz clic en <strong class="font-medium text-gray-700 dark:text-gray-300">Ver</strong> para consultar el historial de órdenes de un cliente.</p>
         </div>
         <div class="border-t border-gray-100 dark:border-gray-800">
-          <PedidosTable :pedidos="paginados" @select="irAlDetalle" />
+          <ClientesTable :clientes="paginados" />
         </div>
 
         <!-- Paginación -->
@@ -59,45 +59,61 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import AdminLayout from '@/components/layout/AdminLayout.vue';
-import PedidosTable from '@/components/tables/PedidosTable.vue';
+import { ref, computed } from 'vue'
+import AdminLayout from '@/components/layout/AdminLayout.vue'
+import ClientesTable from '@/components/tables/ClientesTable.vue'
 
-const router = useRouter();
-const pagina    = ref(1);
-const porPagina = 10;
+const pagina    = ref(1)
+const porPagina = 10
 
-const estados  = ['Nuevo', 'En proceso', 'Completado', 'Fallido', 'Cancelado'];
-const ciudades = ['CDMX', 'Guadalajara', 'Monterrey', 'Puebla', 'Tijuana', 'Querétaro', 'Mérida'];
-const clientes = [
-  'Ana Ruiz','Carlos Méndez','Laura Torres','Diego Herrera','Sofía Vargas',
-  'Miguel Reyes','Valentina Cruz','Andrés Leal','Camila Mora','Javier Ponce',
-  'Elena Rios','Fernando Díaz','Isabella Soto','Rodrigo Núñez','Daniela Ortiz',
-  'Emilio Vega','Mariana Fuentes','Tomás Gil','Natalia Romero','Pablo Acosta',
-  'Lucía Flores','Sebastián Peña','Renata Castro','Óscar Moreno','Xiomara Rubio',
-];
-const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-const fecha = (i) => {
-  const d = new Date(2025, Math.floor(i / 2) % 12, (i % 28) + 1);
-  return `${d.getDate().toString().padStart(2,'0')} ${meses[d.getMonth()]} ${d.getFullYear()}`;
-};
+// ── Mock data ────────────────────────────────────────────────────────────────
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
 
-const pedidos = Array.from({ length: 25 }, (_, i) => ({
-  id:      i + 1,
-  orden:   String(i + 1).padStart(6, '0'),
-  cliente: clientes[i],
-  fecha:   fecha(i),
-  ciudad:  ciudades[i % ciudades.length],
-  total:   Math.floor(Math.random() * 4500 + 299),
-  estado:  estados[i % estados.length],
-}));
+function fmtFecha(d) {
+  return `${d.getDate().toString().padStart(2,'0')} ${meses[d.getMonth()]} ${d.getFullYear()}`
+}
 
-const total        = computed(() => pedidos.length);
-const totalPaginas = computed(() => Math.ceil(total.value / porPagina));
-const desde        = computed(() => (pagina.value - 1) * porPagina);
-const paginados    = computed(() => pedidos.slice(desde.value, desde.value + porPagina));
-const paginas      = computed(() => Array.from({ length: totalPaginas.value }, (_, i) => i + 1));
+function normalize(s) {
+  return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+}
 
-const irAlDetalle = (pedido) => router.push(`/pedidos/${pedido.id}`);
+function makeId(i) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  let n = (i + 1) * 987654321
+  return Array.from({ length: 6 }, () => {
+    n = ((n * 1664525) + 1013904223) >>> 0
+    return chars[n % chars.length]
+  }).join('')
+}
+
+const nombres = [
+  'Ana Ruiz',       'Carlos Méndez',   'Laura Torres',    'Diego Herrera',  'Sofía Vargas',
+  'Miguel Reyes',   'Valentina Cruz',   'Andrés Leal',    'Camila Mora',    'Javier Ponce',
+  'Elena Rios',     'Fernando Díaz',    'Isabella Soto',  'Rodrigo Núñez',  'Daniela Ortiz',
+  'Emilio Vega',    'Mariana Fuentes',  'Tomás Gil',      'Natalia Romero', 'Pablo Acosta',
+]
+
+const clientes = nombres.map((nombre, i) => {
+  const parts = nombre.split(' ')
+  const email = `${normalize(parts[0])}.${normalize(parts[1] ?? '')}@ejemplo.mx`
+  const alta  = new Date(2023, (i * 2) % 12, (i * 11 % 28) + 1)
+  const numPedidos = (i % 7) + 1
+  const ultima = new Date(alta)
+  ultima.setDate(ultima.getDate() + numPedidos * 40 + 10)
+  return {
+    id: i + 1,
+    cid: makeId(i),
+    nombre,
+    email,
+    alta: fmtFecha(alta),
+    ultimaCompra: fmtFecha(ultima),
+    pedidos: numPedidos,
+  }
+})
+
+const total        = computed(() => clientes.length)
+const totalPaginas = computed(() => Math.ceil(total.value / porPagina))
+const desde        = computed(() => (pagina.value - 1) * porPagina)
+const paginados    = computed(() => clientes.slice(desde.value, desde.value + porPagina))
+const paginas      = computed(() => Array.from({ length: totalPaginas.value }, (_, i) => i + 1))
 </script>

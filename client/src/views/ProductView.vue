@@ -2,7 +2,7 @@
   <main class="product-view">
     <!-- Breadcrumb -->
     <div class="breadcrumb-container">
-      <router-link to="/" class="breadcrumb-link">Inicio</router-link>
+      <router-link to="/" class="breadcrumb-link">{{ t('product.home') }}</router-link>
       <span class="breadcrumb-sep">/</span>
       <span class="breadcrumb-current">{{ product.name }}</span>
     </div>
@@ -22,16 +22,16 @@
         <div class="product-info-col">
           <span class="product-artist">{{ product.artist }}</span>
           <h1 class="product-name-title">{{ product.name }}</h1>
-          <p class="product-price-large">${{ fmt(product.price) }} MXN</p>
-          
+          <p class="product-price-large">{{ formatPrice(product.price) }}</p>
+
           <p class="product-description">
-            {{ product.description || 'Playera oficial de alta calidad. 100% algodón pre-encogido, estampado en serigrafía de alta durabilidad. Corte regular unisex. Ideal para apoyar a tu artista favorito con el mejor estilo.' }}
+            {{ product.description || t('product.defaultDesc') }}
           </p>
 
           <div class="product-options">
             <!-- Tallas -->
             <div class="option-group">
-              <label class="option-label">Talla</label>
+              <label class="option-label">{{ t('product.size') }}</label>
               <div class="size-selector">
                 <button 
                   v-for="size in ['S', 'M', 'L', 'XL', 'XXL']" 
@@ -47,7 +47,7 @@
 
             <!-- Cantidad -->
             <div class="option-group">
-              <label class="option-label">Cantidad</label>
+              <label class="option-label">{{ t('product.quantity') }}</label>
               <div class="quantity-selector">
                 <button class="qty-btn" @click="quantity > 1 ? quantity-- : null">-</button>
                 <input type="number" class="qty-input" v-model.number="quantity" min="1">
@@ -59,7 +59,7 @@
           <!-- Acciones -->
           <div class="product-actions">
             <button class="add-to-cart-large" @click="addToCart">
-              Agregar al carrito
+              {{ t('product.addToCart') }}
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
@@ -71,11 +71,11 @@
           <div class="product-perks">
             <div class="perk-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-              <span>Envío seguro a todo México</span>
+              <span>{{ t('product.shipping') }}</span>
             </div>
             <div class="perk-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-              <span>Pagos 100% protegidos</span>
+              <span>{{ t('product.securePayments') }}</span>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@
     <!-- Productos Relacionados -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="related-title">También podría gustarte</h2>
+        <h2 class="related-title">{{ t('product.relatedTitle') }}</h2>
         <div class="related-grid">
           <router-link :to="`/producto/${relProduct.id}`" class="product-card" v-for="relProduct in relatedProducts" :key="relProduct.id">
             <div class="product-image-wrapper">
@@ -96,7 +96,7 @@
               <span class="product-artist">{{ relProduct.artist }}</span>
               <h3 class="product-name">{{ relProduct.name }}</h3>
               <div class="product-footer">
-                <span class="product-price">${{ fmt(relProduct.price) }} MXN</span>
+                <span class="product-price">{{ formatPrice(relProduct.price) }}</span>
               </div>
             </div>
           </router-link>
@@ -110,6 +110,10 @@
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { cartActions } from '../store/cart.js';
+import { useLocale } from '../composables/useLocale.js';
+import { formatPrice } from '../store/locale.js';
+
+const { t } = useLocale();
 
 const route = useRoute();
 
@@ -154,7 +158,6 @@ const addToCart = () => {
   cartActions.addItem(product.value, selectedSize.value, quantity.value);
 };
 
-const fmt = (n) => n.toLocaleString('es-MX')
 </script>
 
 <style scoped>

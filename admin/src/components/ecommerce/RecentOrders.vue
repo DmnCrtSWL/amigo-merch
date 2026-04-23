@@ -63,16 +63,16 @@
         <thead>
           <tr class="border-t border-gray-100 dark:border-gray-800">
             <th class="py-3 text-left">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Products</p>
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Producto</p>
             </th>
             <th class="py-3 text-left">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Category</p>
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Tienda</p>
             </th>
             <th class="py-3 text-left">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Price</p>
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Precio</p>
             </th>
             <th class="py-3 text-left">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Status</p>
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">Estado</p>
             </th>
           </tr>
         </thead>
@@ -84,21 +84,21 @@
           >
             <td class="py-3 whitespace-nowrap">
               <div class="flex items-center gap-3">
-                <div class="h-[50px] w-[50px] overflow-hidden rounded-md">
-                  <img :src="product.image" :alt="product.name" />
+                <div class="h-[50px] w-[50px] overflow-hidden rounded-md border border-gray-100 dark:border-gray-800">
+                  <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
                 </div>
                 <div>
                   <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
                     {{ product.name }}
                   </p>
                   <span class="text-gray-500 text-theme-xs dark:text-gray-400"
-                    >{{ product.variants }} Variants</span
+                    >{{ product.variants }} Variantes</span
                   >
                 </div>
               </div>
             </td>
             <td class="py-3 whitespace-nowrap">
-              <p class="text-gray-500 text-theme-sm dark:text-gray-400">{{ product.category }}</p>
+              <p class="text-gray-500 text-theme-sm dark:text-gray-400">{{ product.tienda }}</p>
             </td>
             <td class="py-3 whitespace-nowrap">
               <p class="text-gray-500 text-theme-sm dark:text-gray-400">{{ product.price }}</p>
@@ -108,11 +108,11 @@
                 :class="{
                   'rounded-full px-2 py-0.5 text-theme-xs font-medium': true,
                   'bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500':
-                    product.status === 'Delivered',
+                    product.status === 'Entregado',
                   'bg-warning-50 text-warning-600 dark:bg-warning-500/15 dark:text-orange-400':
-                    product.status === 'Pending',
+                    product.status === 'Pendiente',
                   'bg-error-50 text-error-600 dark:bg-error-500/15 dark:text-error-500':
-                    product.status === 'Canceled',
+                    product.status === 'Cancelado',
                 }"
               >
                 {{ product.status }}
@@ -130,44 +130,44 @@ import { ref } from 'vue'
 
 const products = ref([
   {
-    name: 'Macbook pro 13"',
-    variants: 2,
+    name: 'Camiseta Rock Classic',
+    variants: 5,
     image: '/images/product/product-01.jpg',
-    category: 'Laptop',
-    price: '$2399.00',
-    status: 'Delivered',
+    tienda: 'Tienda Rock Central',
+    price: '$299.00',
+    status: 'Entregado',
   },
   {
-    name: 'Apple Watch Ultra',
-    variants: 1,
+    name: 'Gorra Tour 2025',
+    variants: 2,
     image: '/images/product/product-02.jpg',
-    category: 'Watch',
-    price: '$879.00',
-    status: 'Pending',
+    tienda: 'Metal & Co.',
+    price: '$199.00',
+    status: 'Pendiente',
   },
   {
-    name: 'iPhone 15 Pro Max',
-    variants: 2,
+    name: 'Hoodie Vintage Logo',
+    variants: 3,
     image: '/images/product/product-03.jpg',
-    category: 'SmartPhone',
-    price: '$1869.00',
-    status: 'Delivered',
+    tienda: 'Pop Merch Store',
+    price: '$799.00',
+    status: 'Entregado',
   },
   {
-    name: 'iPad Pro 3rd Gen',
-    variants: 2,
-    image: '/images/product/product-04.jpg',
-    category: 'Electronics',
-    price: '$1699.00',
-    status: 'Canceled',
-  },
-  {
-    name: 'Airpods Pro 2nd Gen',
+    name: 'Calcetines Logo Pack',
     variants: 1,
+    image: '/images/product/product-04.jpg',
+    tienda: 'Tienda Rock Central',
+    price: '$99.00',
+    status: 'Cancelado',
+  },
+  {
+    name: 'Camiseta Band Tee',
+    variants: 4,
     image: '/images/product/product-05.jpg',
-    category: 'Accessories',
-    price: '$240.00',
-    status: 'Delivered',
+    tienda: 'Urban Beats',
+    price: '$349.00',
+    status: 'Entregado',
   },
 ])
 </script>

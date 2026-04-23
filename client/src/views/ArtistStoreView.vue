@@ -4,23 +4,23 @@
       <div class="store-hero-overlay"></div>
       <div class="store-hero-content">
         <h1>{{ storeInfo.name }}</h1>
-        <p>Tienda Oficial</p>
+        <p>{{ t('store.officialStore') }}</p>
       </div>
     </div>
 
     <div class="store-container">
       <div class="store-controls">
-        <span class="results-count"><strong>{{ sortedProducts.length }}</strong> productos</span>
+        <span class="results-count"><strong>{{ sortedProducts.length }}</strong> {{ t('store.products') }}</span>
         <div class="filter-group">
-          <label for="sort">Ordenar por:</label>
+          <label for="sort">{{ t('store.sortBy') }}</label>
           <select id="sort" v-model="sortBy" class="sort-select">
-            <option value="populares">Populares</option>
-            <option value="priceAsc">Precio: Menor a Mayor</option>
-            <option value="priceDesc">Precio: Mayor a Menor</option>
-            <option value="alphaAsc">Alfabético (A - Z)</option>
-            <option value="alphaDesc">Alfabético (Z - A)</option>
-            <option value="dateDesc">Fecha: Más Recientes</option>
-            <option value="dateAsc">Fecha: Más Antiguos</option>
+            <option value="populares">{{ t('store.popular') }}</option>
+            <option value="priceAsc">{{ t('store.priceAsc') }}</option>
+            <option value="priceDesc">{{ t('store.priceDesc') }}</option>
+            <option value="alphaAsc">{{ t('store.alphaAsc') }}</option>
+            <option value="alphaDesc">{{ t('store.alphaDesc') }}</option>
+            <option value="dateDesc">{{ t('store.dateDesc') }}</option>
+            <option value="dateAsc">{{ t('store.dateAsc') }}</option>
           </select>
         </div>
       </div>
@@ -36,14 +36,14 @@
             <img :src="product.image" :alt="product.name" class="product-image" loading="lazy">
             <span class="product-tag" v-if="product.tag">{{ product.tag }}</span>
             <div class="product-overlay">
-              <button class="overlay-btn">Ver Producto</button>
+              <button class="overlay-btn">{{ t('store.viewProduct') }}</button>
             </div>
           </div>
           <div class="product-info">
             <span class="product-artist">{{ storeInfo.name }}</span>
             <h3 class="product-name">{{ product.name }}</h3>
             <div class="product-footer">
-              <span class="product-price">${{ fmt(product.price) }} MXN</span>
+              <span class="product-price">{{ formatPrice(product.price) }}</span>
             </div>
           </div>
         </router-link>
@@ -55,6 +55,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useLocale } from '../composables/useLocale.js'
+import { formatPrice } from '../store/locale.js'
+
+const { t } = useLocale()
 
 const route = useRoute()
 
@@ -109,8 +113,6 @@ const allArtists = [
   'Kevin Kaarl', 'Esteman', 'Joliette', 'Los Rumberos', 'Siamés', 'Kakkmadafakka',
   'María Centeno', 'Sofía Campos', 'Carla Morrison', 'La Isla Centeno', 'Bratty', 'The Blaze'
 ]
-
-const fmt = (n) => n.toLocaleString('es-MX')
 
 onMounted(() => {
   // Obtener el slug de la URL

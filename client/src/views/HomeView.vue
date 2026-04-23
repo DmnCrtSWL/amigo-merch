@@ -24,7 +24,10 @@ const artists = [
   { name: 'The Blaze', image: '/images/artist2.png' }
 ]
 
-const fmt = (n) => n.toLocaleString('es-MX')
+import { useLocale } from '../composables/useLocale.js'
+import { formatPrice } from '../store/locale.js'
+
+const { t } = useLocale()
 
 const products = [
   {
@@ -60,7 +63,7 @@ const products = [
       <img src="/images/shape-1.png" class="hero-shape hero-shape-right" alt="" aria-hidden="true">
       <img src="/images/shape-3.png" class="hero-shape hero-shape-left" alt="" aria-hidden="true">
       <div class="hero-content">
-        <h1 class="hero-title">Desarrollo, producción, venta y manejo de merch oficial.</h1>
+        <h1 class="hero-title">{{ t('home.heroTitle') }}</h1>
       </div>
       <div class="custom-shape-divider-bottom">
         <svg class="editorial" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none">
@@ -80,7 +83,7 @@ const products = [
     <section class="catalog-section">
       <img src="/images/shape-1.png" class="floating-shape shape-left" alt="" aria-hidden="true">
       <div class="container catalog-container">
-        <h2 class="section-title">Nuestras Tiendas</h2>
+        <h2 class="section-title">{{ t('home.ourStores') }}</h2>
         <div class="artist-grid">
           <router-link :to="`/tienda/${encode(artist.name)}`" class="artist-card" v-for="(artist, index) in artists" :key="index">
             <div class="artist-image-wrapper">
@@ -95,8 +98,8 @@ const products = [
     <!-- Newsletter -->
     <section class="newsletter-section">
       <div class="newsletter-container">
-        <h2 class="newsletter-title">Entérate primero que nadie.</h2>
-        <p class="newsletter-sub">Nuevas tiendas, lanzamientos exclusivos y merch limitado directo a tu correo. Sin spam, solo lo bueno.</p>
+        <h2 class="newsletter-title">{{ t('home.newsletterTitle') }}</h2>
+        <p class="newsletter-sub">{{ t('home.newsletterDesc') }}</p>
         <form class="newsletter-form" @submit.prevent>
           <div class="input-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="input-icon">
@@ -106,18 +109,18 @@ const products = [
             <input
               type="email"
               class="newsletter-input"
-              placeholder="tucorreo@ejemplo.com"
-              aria-label="Correo electrónico"
+              :placeholder="t('home.newsletterPlaceholder')"
+              :aria-label="t('home.newsletterPlaceholder')"
               required
             />
           </div>
-          <button type="submit" class="newsletter-btn">Suscribirme</button>
+          <button type="submit" class="newsletter-btn">{{ t('home.newsletterBtn') }}</button>
         </form>
         <p class="newsletter-disclaimer">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
           </svg>
-          Tu información está segura. Puedes darte de baja en cualquier momento.
+          {{ t('home.newsletterDisclaimer') }}
         </p>
       </div>
     </section>
@@ -127,9 +130,9 @@ const products = [
       <img src="/images/shape-2.png" class="floating-shape shape-right" alt="" aria-hidden="true">
       <div class="bestsellers-container">
         <div class="section-header">
-          <span class="section-eyebrow">Tendencia</span>
-          <h2 class="bestsellers-title">Más Comprados</h2>
-          <p class="bestsellers-sub">Los favoritos de nuestra comunidad, listos para llevarse a casa.</p>
+          <span class="section-eyebrow">{{ t('home.trendEyebrow') }}</span>
+          <h2 class="bestsellers-title">{{ t('home.bestsellers') }}</h2>
+          <p class="bestsellers-sub">{{ t('home.bestsellersDesc') }}</p>
         </div>
         <div class="products-grid">
           <router-link :to="`/producto/${product.id}`" class="product-card" v-for="product in products" :key="product.id">
@@ -137,14 +140,14 @@ const products = [
               <img :src="product.image" :alt="product.name" class="product-image" loading="lazy">
               <span class="product-tag">{{ product.tag }}</span>
               <div class="product-overlay">
-                <button class="overlay-btn">Ver Producto</button>
+                <button class="overlay-btn">{{ t('home.viewProduct') }}</button>
               </div>
             </div>
             <div class="product-info">
               <span class="product-artist">{{ product.artist }}</span>
               <h3 class="product-name">{{ product.name }}</h3>
               <div class="product-footer">
-                <span class="product-price">${{ fmt(product.price) }} MXN</span>
+                <span class="product-price">{{ formatPrice(product.price) }}</span>
               </div>
             </div>
           </router-link>
@@ -158,10 +161,10 @@ const products = [
         <div class="maquila-overlay"></div>
       </div>
       <div class="maquila-content">
-        <span class="maquila-eyebrow">Servicios Profesionales</span>
-        <h2 class="maquila-title">Maquila para tu proyecto</h2>
-        <p class="maquila-desc">¿Tienes una idea? Nosotros la hacemos realidad. Ofrecemos producción de merch premium para artistas, marcas y corporativos con la mejor calidad del mercado.</p>
-        <button class="maquila-btn">Conocer más</button>
+        <span class="maquila-eyebrow">{{ t('home.servicesEyebrow') }}</span>
+        <h2 class="maquila-title">{{ t('home.maquilaTitle') }}</h2>
+        <p class="maquila-desc">{{ t('home.maquilaDesc') }}</p>
+        <button class="maquila-btn">{{ t('home.maquilaBtn') }}</button>
       </div>
     </section>
 
@@ -169,9 +172,9 @@ const products = [
     <section class="contact-section">
       <div class="contact-container">
         <div class="contact-header">
-          <span class="section-eyebrow">Estamos para ayudarte</span>
-          <h2 class="section-title" style="margin-bottom: 16px;">Contáctanos</h2>
-          <p class="contact-sub">¿Tienes dudas sobre tu pedido o quieres cotizar un proyecto? Escríbenos y nos pondremos en contacto contigo a la brevedad.</p>
+          <span class="section-eyebrow">{{ t('home.contactEyebrow') }}</span>
+          <h2 class="section-title" style="margin-bottom: 16px;">{{ t('home.contactTitle') }}</h2>
+          <p class="contact-sub">{{ t('home.contactDesc') }}</p>
         </div>
         
         <div class="contact-content-stacked">
@@ -179,31 +182,31 @@ const products = [
           <div class="contact-form-card">
             <form class="contact-form" @submit.prevent>
               <div class="form-group">
-                <label for="name">Nombre Completo</label>
-                <input type="text" id="name" placeholder="Tu nombre" required>
+                <label for="name">{{ t('home.contactName') }}</label>
+                <input type="text" id="name" :placeholder="t('home.contactNamePh')" required>
               </div>
-              
+
               <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+                <label for="email">{{ t('home.contactEmail') }}</label>
+                <input type="email" id="email" :placeholder="t('home.contactEmailPh')" required>
               </div>
-              
+
               <div class="form-group">
-                <label for="subject">Asunto</label>
+                <label for="subject">{{ t('home.contactSubject') }}</label>
                 <select id="subject" required>
-                  <option value="" disabled selected>Selecciona un asunto</option>
-                  <option value="pedido">Duda sobre mi pedido</option>
-                  <option value="maquila">Cotización de Maquila</option>
-                  <option value="otro">Otro</option>
+                  <option value="" disabled selected>{{ t('home.contactSubjectPh') }}</option>
+                  <option value="pedido">{{ t('home.contactOrder') }}</option>
+                  <option value="maquila">{{ t('home.contactMaquila') }}</option>
+                  <option value="otro">{{ t('home.contactOther') }}</option>
                 </select>
               </div>
-              
+
               <div class="form-group">
-                <label for="message">Mensaje</label>
-                <textarea id="message" rows="4" placeholder="¿En qué te podemos ayudar?" required></textarea>
+                <label for="message">{{ t('home.contactMessage') }}</label>
+                <textarea id="message" rows="4" :placeholder="t('home.contactMessagePh')" required></textarea>
               </div>
-              
-              <button type="submit" class="submit-btn">Enviar Mensaje</button>
+
+              <button type="submit" class="submit-btn">{{ t('home.contactSend') }}</button>
             </form>
           </div>
 
@@ -216,7 +219,7 @@ const products = [
                 </svg>
               </div>
               <div class="info-text">
-                <h3>Teléfono / WhatsApp</h3>
+                <h3>{{ t('home.contactPhone') }}</h3>
                 <p><a href="tel:+525512345678">+52 55 1234 5678</a></p>
               </div>
             </div>
@@ -229,7 +232,7 @@ const products = [
                 </svg>
               </div>
               <div class="info-text">
-                <h3>Correo Electrónico</h3>
+                <h3>{{ t('home.contactEmailLabel') }}</h3>
                 <p><a href="mailto:hola@amigomerch.mx">hola@amigomerch.mx</a></p>
               </div>
             </div>

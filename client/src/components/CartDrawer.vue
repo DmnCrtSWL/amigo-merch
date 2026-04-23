@@ -2,10 +2,11 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { cartState, cartActions, cartGetters } from '../store/cart.js'
+import { useLocale } from '../composables/useLocale.js'
+import { formatPrice } from '../store/locale.js'
 
 const router = useRouter()
-
-const fmt = (n) => n.toLocaleString('es-MX')
+const { t } = useLocale()
 
 const closeCart = () => {
   cartActions.closeCart()
@@ -26,7 +27,7 @@ const goToCheckout = () => {
     <transition name="drawer-slide">
       <div v-if="cartState.isOpen" class="cart-drawer">
         <div class="cart-drawer-header">
-          <h2 class="cart-title">Tu Carrito</h2>
+          <h2 class="cart-title">{{ t('cart.title') }}</h2>
           <button class="close-btn" @click="closeCart" aria-label="Cerrar Carrito">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -42,8 +43,8 @@ const goToCheckout = () => {
               <circle cx="20" cy="21" r="1"></circle>
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
-            <p>Tu carrito está vacío</p>
-            <button class="btn-primary continue-shopping-btn" @click="closeCart">Continuar Comprando</button>
+            <p>{{ t('cart.empty') }}</p>
+            <button class="btn-primary continue-shopping-btn" @click="closeCart">{{ t('cart.continueShopping') }}</button>
           </div>
           
           <div v-else class="cart-items-container">
@@ -51,8 +52,8 @@ const goToCheckout = () => {
               <img :src="item.image" :alt="item.name" class="cart-item-image">
               <div class="cart-item-details">
                 <h4 class="cart-item-name">{{ item.name }}</h4>
-                <p class="cart-item-meta">Talla: {{ item.size }}</p>
-                <div class="cart-item-price">${{ fmt(item.price) }}</div>
+                <p class="cart-item-meta">{{ t('cart.size') }}: {{ item.size }}</p>
+                <div class="cart-item-price">{{ formatPrice(item.price) }}</div>
                 
                 <div class="cart-item-controls">
                   <div class="qty-control">
@@ -60,7 +61,7 @@ const goToCheckout = () => {
                     <span>{{ item.quantity }}</span>
                     <button @click="cartActions.updateQuantity(item.cartItemId, item.quantity + 1)">+</button>
                   </div>
-                  <button class="remove-btn" @click="cartActions.removeItem(item.cartItemId)">Eliminar</button>
+                  <button class="remove-btn" @click="cartActions.removeItem(item.cartItemId)">{{ t('cart.remove') }}</button>
                 </div>
               </div>
             </div>
@@ -69,16 +70,16 @@ const goToCheckout = () => {
 
         <div class="cart-drawer-footer">
           <div class="cart-summary">
-            <span class="summary-label">Subtotal</span>
-            <span class="summary-value">${{ fmt(cartGetters.totalPrice.value) }} MXN</span>
+            <span class="summary-label">{{ t('cart.subtotal') }}</span>
+            <span class="summary-value">{{ formatPrice(cartGetters.totalPrice.value) }}</span>
           </div>
-          <p class="shipping-notice">Impuestos y envío calculados en el checkout</p>
-          <button 
-            class="btn-secondary checkout-btn" 
+          <p class="shipping-notice">{{ t('cart.shippingNotice') }}</p>
+          <button
+            class="btn-secondary checkout-btn"
             :disabled="cartState.items.length === 0"
             @click="goToCheckout"
           >
-            Finalizar Compra
+            {{ t('cart.checkout') }}
           </button>
         </div>
       </div>

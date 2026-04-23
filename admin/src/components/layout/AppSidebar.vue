@@ -214,6 +214,8 @@ import { useRoute } from "vue-router";
 import {
   PieChartIcon,
   UserGroupIcon,
+  UserCircleIcon,
+  BellIcon,
   BoxIcon,
   ListIcon,
   HomeIcon,
@@ -242,6 +244,16 @@ const menuGroups = [
         icon: UserGroupIcon,
         name: "Usuarios",
         path: "/usuarios",
+      },
+      {
+        icon: UserCircleIcon,
+        name: "Clientes",
+        path: "/clientes",
+      },
+      {
+        icon: BellIcon,
+        name: "Suscriptores",
+        path: "/suscriptores",
       },
       {
         icon: BoxIcon,

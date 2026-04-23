@@ -3,9 +3,10 @@ import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import CartDrawer from './CartDrawer.vue'
 import { cartActions, cartGetters } from '../store/cart.js'
+import { currentLang } from '../store/locale.js'
+import { useLocale } from '../composables/useLocale.js'
 
 const isMenuOpen = ref(false)
-const language = ref('ESP')
 const isSearchOpen = ref(false)
 const isTiendasOpen = ref(false)
 const isLangMenuOpen = ref(false)
@@ -14,6 +15,7 @@ const isDesktopMegamenuOpen = ref(false)
 
 const route = useRoute()
 const isCheckout = computed(() => route.path === '/checkout')
+const { t } = useLocale()
 
 watch(route, () => {
   isDesktopMegamenuOpen.value = false
@@ -54,7 +56,7 @@ const toggleLangMenu = () => {
 }
 
 const selectLanguage = (code) => {
-  language.value = code
+  currentLang.value = code
   isLangMenuOpen.value = false
 }
 
@@ -64,7 +66,7 @@ const languages = [
   { code: 'FRA', flag: '🇫🇷', label: 'Français' }
 ]
 
-const currentLanguage = computed(() => languages.find(l => l.code === language.value) || languages[0])
+const currentLanguage = computed(() => languages.find(l => l.code === currentLang.value) || languages[0])
 </script>
 
 <template>
@@ -79,15 +81,15 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
       <!-- Desktop Navigation -->
       <nav class="desktop-nav">
         <ul class="desktop-nav-links">
-          <li><router-link to="/">Inicio</router-link></li>
+          <li><router-link to="/">{{ t('nav.home') }}</router-link></li>
           <li class="has-megamenu" :class="{ 'is-active': isDesktopMegamenuOpen }">
-            <a href="#" @click.prevent="isDesktopMegamenuOpen = !isDesktopMegamenuOpen" class="megamenu-trigger">Tiendas <span class="chevron"></span></a>
+            <a href="#" @click.prevent="isDesktopMegamenuOpen = !isDesktopMegamenuOpen" class="megamenu-trigger">{{ t('nav.stores') }} <span class="chevron"></span></a>
             <div class="megamenu">
               <div class="megamenu-inner">
                 <div class="megamenu-info">
-                  <h3 class="megamenu-title">Artistas y Tiendas</h3>
-                  <p class="megamenu-desc">Explora la mercancía oficial y exclusiva de tus artistas favoritos. Calidad garantizada.</p>
-                  <router-link to="/tiendas" class="megamenu-btn">Ver todas las tiendas</router-link>
+                  <h3 class="megamenu-title">{{ t('nav.artistsAndStores') }}</h3>
+                  <p class="megamenu-desc">{{ t('nav.megamenuDesc') }}</p>
+                  <router-link to="/tiendas" class="megamenu-btn">{{ t('nav.allStores') }}</router-link>
                 </div>
                 <div class="megamenu-lists">
                   <ul class="sub-menu">
@@ -114,10 +116,10 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
               </div>
             </div>
           </li>
-          <li><router-link to="/nosotros">Nosotros</router-link></li>
-          <li><router-link to="/rastreo">Rastreo</router-link></li>
-          <li><router-link to="/facturacion">Facturación</router-link></li>
-          <li><router-link to="/contacto">Contacto</router-link></li>
+          <li><router-link to="/nosotros">{{ t('nav.about') }}</router-link></li>
+          <li><router-link to="/rastreo">{{ t('nav.tracking') }}</router-link></li>
+          <li><router-link to="/facturacion">{{ t('nav.billing') }}</router-link></li>
+          <li><router-link to="/contacto">{{ t('nav.contact') }}</router-link></li>
         </ul>
       </nav>
 
@@ -142,7 +144,7 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
           
           <ul class="lang-dropdown" v-show="isLangMenuOpen">
             <li v-for="lang in languages" :key="lang.code">
-              <button @click="selectLanguage(lang.code)" class="lang-option" :class="{ 'selected': lang.code === language.value }">
+              <button @click="selectLanguage(lang.code)" class="lang-option" :class="{ 'selected': lang.code === currentLang }">
                 <span class="flag">{{ lang.flag }}</span>
                 <span class="code">{{ lang.code }}</span>
               </button>
@@ -168,10 +170,10 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
     <!-- Navigation Drawer -->
     <nav class="mobile-nav" :class="{ 'nav-open': isMenuOpen }">
       <ul class="nav-links">
-        <li><router-link to="/" @click="toggleMenu">Inicio</router-link></li>
+        <li><router-link to="/" @click="toggleMenu">{{ t('nav.home') }}</router-link></li>
         <li>
           <div class="mobile-submenu-toggle" @click="isTiendasOpen = !isTiendasOpen">
-            Tiendas 
+            {{ t('nav.stores') }}
             <span class="chevron" :style="{ transform: isTiendasOpen ? 'rotate(180deg)' : 'rotate(0)' }"></span>
           </div>
           <ul class="mobile-sub-menu" v-show="isTiendasOpen">
@@ -195,10 +197,10 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
             <li class="menu-item"><router-link to="/tienda/the-blaze" @click="toggleMenu">The Blaze</router-link></li>
           </ul>
         </li>
-        <li><router-link to="/nosotros" @click="toggleMenu">Nosotros</router-link></li>
-        <li><router-link to="/rastreo" @click="toggleMenu">Rastreo</router-link></li>
-        <li><router-link to="/facturacion" @click="toggleMenu">Facturación</router-link></li>
-        <li><router-link to="/contacto" @click="toggleMenu">Contacto</router-link></li>
+        <li><router-link to="/nosotros" @click="toggleMenu">{{ t('nav.about') }}</router-link></li>
+        <li><router-link to="/rastreo" @click="toggleMenu">{{ t('nav.tracking') }}</router-link></li>
+        <li><router-link to="/facturacion" @click="toggleMenu">{{ t('nav.billing') }}</router-link></li>
+        <li><router-link to="/contacto" @click="toggleMenu">{{ t('nav.contact') }}</router-link></li>
       </ul>
     </nav>
   </header>
@@ -216,7 +218,7 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
   <transition name="fade-chat">
     <div v-if="isChatOpen" class="chat-window">
       <div class="chat-header">
-        <h4>Asistente de Atención</h4>
+        <h4>{{ t('nav.chatTitle') }}</h4>
         <button @click="isChatOpen = false" class="close-chat" aria-label="Cerrar Chat">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -225,10 +227,10 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
         </button>
       </div>
       <div class="chat-body">
-        <p class="chat-msg bot-msg">¡Hola! ¿En qué te puedo ayudar hoy con tu merch?</p>
+        <p class="chat-msg bot-msg">{{ t('nav.chatGreeting') }}</p>
       </div>
       <div class="chat-footer">
-        <input type="text" placeholder="Escribe un mensaje..." class="chat-input" />
+        <input type="text" :placeholder="t('nav.chatPlaceholder')" class="chat-input" />
         <button class="chat-send" aria-label="Enviar">
            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
              <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -264,11 +266,11 @@ const currentLanguage = computed(() => languages.find(l => l.code === language.v
         <input 
           type="text" 
           class="search-fullscreen-input" 
-          placeholder="¿Qué estas buscando?" 
+          :placeholder="t('nav.searchPlaceholder')"
           ref="searchInput" 
           @keyup.esc="toggleSearch"
         />
-        <p class="search-hint">Presiona ENTER para buscar o ESC para cerrar.</p>
+        <p class="search-hint">{{ t('nav.searchHint') }}</p>
       </div>
     </div>
   </transition>

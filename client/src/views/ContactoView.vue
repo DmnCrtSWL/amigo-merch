@@ -93,7 +93,7 @@ onMounted(() => {
 .header-banner {
   position: relative;
   height: 250px;
-  background-image: url('/images/delivery_header.png');
+  background-image: url('/images/contact_header.png');
   background-size: cover;
   background-position: center;
   display: flex;
