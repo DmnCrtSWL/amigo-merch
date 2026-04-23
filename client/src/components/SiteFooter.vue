@@ -1,0 +1,204 @@
+<template>
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <!-- Logo y Redes Sociales -->
+        <div class="footer-brand">
+          <img src="/logo.png" alt="Amigo Merch Logo" class="footer-logo" />
+          <p class="footer-desc">Desarrollo, producción, venta y manejo de merch oficial.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook" class="social-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="social-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" aria-label="X (Twitter)" class="social-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mapa del Sitio -->
+        <div class="footer-links-group">
+          <h4 class="footer-heading">Mapa del Sitio</h4>
+          <ul class="footer-links">
+            <li><router-link to="/">Inicio</router-link></li>
+            <li><router-link to="/tiendas">Tiendas</router-link></li>
+            <li><router-link to="/nosotros">Nosotros</router-link></li>
+            <li><router-link to="/facturacion">Facturación</router-link></li>
+            <li><router-link to="/contacto">Contacto</router-link></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div class="footer-links-group">
+          <h4 class="footer-heading">Legal</h4>
+          <ul class="footer-links">
+            <li><router-link to="/aviso-privacidad">Aviso de Privacidad</router-link></li>
+            <li><router-link to="/terminos">Términos y Condiciones</router-link></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">Derechos Reservados, Amigo Merch 2026.</p>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<style scoped>
+.site-footer {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 80px 0 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: rgba(246, 178, 0, 0.05);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 64px;
+  margin-bottom: 64px;
+}
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  margin-bottom: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.footer-desc {
+  font-family: 'Nunito Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 350px;
+  margin-bottom: 32px;
+}
+
+.social-links {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-icon:hover {
+  background-color: var(--secondary-color);
+  color: #111;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(246, 178, 0, 0.3);
+}
+
+.footer-heading {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--secondary-color);
+}
+
+.footer-text {
+  font-family: 'Nunito Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  font-family: 'Nunito Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: color 0.2s, padding-left 0.2s;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--secondary-color);
+  padding-left: 6px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 24px;
+  text-align: center;
+}
+
+.copyright {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+</style>

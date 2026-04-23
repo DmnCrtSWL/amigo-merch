@@ -1,0 +1,111 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { left: 0, top: 0 }
+  },
+  routes: [
+    {
+      path: '/',
+      name: 'Estadisticas',
+      component: () => import('../views/Estadisticas.vue'),
+      meta: {
+        title: 'Estadísticas',
+      },
+    },
+    {
+      path: '/usuarios',
+      name: 'Usuarios',
+      component: () => import('../views/Usuarios.vue'),
+      meta: { title: 'Usuarios' },
+    },
+    {
+      path: '/usuarios/nuevo',
+      name: 'UsuarioNuevo',
+      component: () => import('../views/UsuarioNuevo.vue'),
+      meta: { title: 'Nuevo Usuario' },
+    },
+    {
+      path: '/productos',
+      name: 'Productos',
+      component: () => import('../views/Productos.vue'),
+      meta: {
+        title: 'Productos',
+      },
+    },
+    {
+      path: '/pedidos',
+      name: 'Pedidos',
+      component: () => import('../views/Pedidos.vue'),
+      meta: { title: 'Pedidos' },
+    },
+    {
+      path: '/pedidos/:id',
+      name: 'PedidoDetalle',
+      component: () => import('../views/PedidoDetalle.vue'),
+      meta: { title: 'Detalle de Pedido' },
+    },
+    {
+      path: '/tiendas',
+      name: 'Tiendas',
+      component: () => import('../views/Tiendas.vue'),
+      meta: {
+        title: 'Tiendas',
+      },
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: () => import('../views/News.vue'),
+      meta: {
+        title: 'News',
+      },
+    },
+    {
+      path: '/tickets',
+      name: 'Tickets',
+      component: () => import('../views/Tickets.vue'),
+      meta: {
+        title: 'Tickets',
+      },
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: () => import('../views/Auth/Signin.vue'),
+      meta: {
+        title: 'Signin',
+      },
+    },
+    {
+      path: '/tiendas/nueva',
+      name: 'TiendaNueva',
+      component: () => import('../views/TiendaNueva.vue'),
+      meta: { title: 'Nueva Tienda' },
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: () => import('../views/Auth/Signup.vue'),
+      meta: {
+        title: 'Signup',
+      },
+    },
+    {
+      path: '/error-404',
+      name: '404 Error',
+      component: () => import('../views/Errors/FourZeroFour.vue'),
+      meta: {
+        title: '404 Error',
+      },
+    },
+  ],
+})
+
+export default router
+
+router.beforeEach((to, from, next) => {
+  document.title = `Vue.js ${to.meta.title} | TailAdmin - Vue.js Tailwind CSS Dashboard Template`
+  next()
+})
